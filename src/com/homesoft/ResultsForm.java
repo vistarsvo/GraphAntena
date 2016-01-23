@@ -26,6 +26,7 @@ public class ResultsForm {
     private JTextPane RAText;
     private JButton BuildLogGraph;
     private JButton CoolChartButton;
+    private JButton NormGraphButton;
 
     private int maxSpinner = 100;
     private float[] Dg;
@@ -66,10 +67,11 @@ public class ResultsForm {
                     if (hMapDG.containsKey(i)) {
                         Dg = hMapDG.get(i);
                         Ra = hMapRA.get(i);
-                        //Rna = hMapRNA.get(i);
+                        Rna = hMapRNA.get(i);
 
                         Main.chartFrame.setxData(Dg);
                         Main.chartFrame.setyData(Ra);
+                        Main.chartFrame.setyNormData(Rna);
 
                         Main.chartFrame.addTab(i, String.valueOf(i), "Логорифмический график по итерации №" + i);
                         Main.chartFrame.show();
@@ -87,8 +89,11 @@ public class ResultsForm {
                     if (hMapDG.containsKey(i)) {
                         Dg = hMapDG.get(i);
                         Ra = hMapRA.get(i);
+                        Rna = hMapRNA.get(i);
+
                         Main.coolChartFrame.setxData(Dg);
                         Main.coolChartFrame.setyData(Ra);
+                        Main.coolChartFrame.setyNormData(Rna);
 
                         Main.coolChartFrame.addTab(i, String.valueOf(i), "График по итерации №" + i);
                         Main.coolChartFrame.show();
@@ -96,8 +101,31 @@ public class ResultsForm {
                 }
             }
         });
+        NormGraphButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (validateSpinner()) {
+                    int i = (int) spinner1.getValue();
+                    if (hMapDG.containsKey(i)) {
+                        Dg = hMapDG.get(i);
+                        Ra = hMapRA.get(i);
+                        Rna = hMapRNA.get(i);
+
+                        Main.coolChartFrame.setxData(Dg);
+                        Main.coolChartFrame.setyData(Rna);
+                        Main.coolChartFrame.setyNormData(Rna);
+
+                        Main.coolChartFrame.addTab(0 - i, String.valueOf(i), "График по итерации (нормированный)№" + i);
+                        Main.coolChartFrame.show();
+                    }
+                }
+            }
+        });
 
     }
+
+
 
     public void setMaxSpinner(int maxSpinner) {
         this.maxSpinner = maxSpinner;
@@ -125,7 +153,7 @@ public class ResultsForm {
                 for (int arrayPos = 1; arrayPos < Dg.length; arrayPos++) {
                     tempDG  += (int)Dg[arrayPos] + "; ";
                     tempRa  += (Math.round(Ra[arrayPos] * 1000f) / 1000f) + "; ";
-                    tempRna += Math.round(Rna[arrayPos] * 100) + "; ";
+                    tempRna += (Math.round(Rna[arrayPos] * 100f) / 100f) + "; ";
                 }
                 DGText.setText(tempDG);
                 RAText.setText(tempRa);

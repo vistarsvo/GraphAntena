@@ -25,6 +25,10 @@ public class InputForm {
     private JLabel varELable;
     private JTextField varIterator;
     private JLabel iteratorLabel;
+    private JTextField varDFMaxTextField;
+    private JLabel m;
+    private JTextField varMTextField;
+    private JTextField varDASigma;
 
 
     public JProgressBar getProgressBar() {
@@ -50,9 +54,96 @@ public class InputForm {
     public String getVarIteratorTextField() {
         return varIterator.getText();
     }
+    public String getvarDFMaxTextField() {
+        return varDFMaxTextField.getText();
+    }
 
+    public String getvarMTextField() {
+        return varMTextField.getText();
+    }
+
+    public String getVarDASigma() {
+        return varDASigma.getText();
+    }
 
     public InputForm() {
+        // Validator
+
+        varDASigma.getDocument().addDocumentListener(new DocumentListener() {
+            float tempDAs;
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                try { tempDAs = Float.parseFloat(varDASigma.getText()); }
+                catch(NumberFormatException e) { tempDAs = -1; }
+
+                if ( tempDAs < 0) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 1000.");
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                try { tempDAs = Float.parseFloat(varDASigma.getText()); }
+                catch(NumberFormatException e) { tempDAs = -1; }
+                if (tempDAs < 0 && !varDASigma.getText().equals("")) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 1000.");
+                }
+            }
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+
+            }
+        });
+
+        varMTextField.getDocument().addDocumentListener(new DocumentListener() {
+            float tempM;
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                try { tempM = Float.parseFloat(varMTextField.getText()); }
+                catch(NumberFormatException e) { tempM = -1; }
+
+                if ( tempM < 0) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 1000. Разделитель точка");
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                try { tempM = Float.parseFloat(varMTextField.getText()); }
+                catch(NumberFormatException e) { tempM = -1; }
+                if (tempM < 0 && !varMTextField.getText().equals("")) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 1000. Разделитель точка");
+                }
+            }
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+
+            }
+        });
+
+        varDFMaxTextField.getDocument().addDocumentListener(new DocumentListener() {
+            float tempF;
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                try { tempF = Float.parseFloat(varDFMaxTextField.getText()); }
+                catch(NumberFormatException e) { tempF = -1; }
+
+                if ( tempF < 0) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 360.");
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                try { tempF = Float.parseFloat(varDFMaxTextField.getText()); }
+                catch(NumberFormatException e) { tempF = -1; }
+                if (tempF < 0 && !varDFMaxTextField.getText().equals("")) {
+                    JOptionPane.showMessageDialog(MainPanel, "Поле должно содержать число. Значение не может быть от 0 до 360.");
+                }
+            }
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+
+            }
+        });
+
         // Validator
         varNTextField.getDocument().addDocumentListener(new DocumentListener() {
             float tempF;

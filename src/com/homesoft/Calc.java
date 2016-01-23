@@ -16,6 +16,7 @@ public class Calc {
     private float Psi   = 0f;
     private float Fi    = 0f;
     private float Ral   = 0f;
+    private float DASigma   = 0f;
 
     private float[] Dg;//  = new float[190];
     private float[] Ra;//  = new float[190];
@@ -23,15 +24,20 @@ public class Calc {
 
     private static Logger log = Logger.getLogger(Calc.class.getName());
 
-    private float firstRandom;
-    private float secondRandom;
+    private float Sigma;
+    private float Delta;
+
+    private float DeltaFiMax;
 
 
-    public void calculateAll() {
+    public void calculateAll(float Sig, float Del) {
         int     i       = 0;
         int     dala    = (int) dal;
         float   a       = 0f;
         float   Max     = 0f;
+
+        Sigma = Sig;
+        Delta = Del;
 
         Dg              = new float[ (int)Nal + 2 ];
         Ra              = new float[ (int)Nal + 2 ];
@@ -62,6 +68,25 @@ public class Calc {
     }
 
 
+    private float FiError(int i) { // #1
+        return (2f * Sigma /*     * (float) i    */ - 1) * DeltaFiMax;
+    }
+
+    private float FiSum(float FiErr, float Fi) { // #4
+        return Fi + FiErr;
+    }
+
+    private float Arasp(float Psi, float PsiFirst) { // #5
+        float part = (float) (Math.sin(Psi) / Math.sin(PsiFirst));
+        return (float) (Math.abs(Math.cos(Psi)) * Math.exp(-m * (part * part)));
+    }
+
+    private float AError() { // #6
+        //System.out.println(Delta);
+       // System.out.println(DASigma);
+        return 1f + (2f * Delta - 1f) * DASigma;
+    }
+
     private float Ralfa(float a) {
         //Формирование сумм, вычисление  R(alfa)
         float sumcos = 0f;
@@ -70,15 +95,24 @@ public class Calc {
         float eps1   = 0f;
         float Ai     = 0f;
         float Arasp  = 1f;
+        float FiErr  = 0f;
+        float FiSum  = 0f;
+        float PsiFirst = 0f;
+        float AError = 0f;
 
-        for (int m = 1; m <= Nc; m++) {
-            Psi  = (2f * m - Nc - 1f) * 3.1415f / N; // * firstRandom * secondRandom;
-            Fi   = (float) (KD * (Math.cos(Psi - a) - Math.cos(Psi)) / 2f);
-            eps1 = (float) ((1f - eps) * Math.cos(a - Psi)) / 2f;
-            R1a  = eps1 + (float) Math.sqrt(eps1 * eps1 + eps);
-            Ai   = R1a * Arasp;
-            sumcos = (float) (sumcos + Ai * Math.cos(Fi));
-            sumsin = (float) (sumsin + Ai * Math.sin(Fi));
+        for (int i = 1; i <= Nc; i++) {
+            FiErr = FiError(i);
+            Psi  = (2f * i - Nc - 1f) * 3.1415f / N; // #2
+            if (PsiFirst == 0f) PsiFirst = Psi;
+            Fi   = (float) (KD * (Math.cos(Psi - a) - Math.cos(Psi)) / 2f); // #3
+            FiSum = FiSum(FiErr, Fi); // # 4
+            Arasp = Arasp(Psi, PsiFirst);
+            AError = AError(); // # 6
+            eps1 = (float) ((1f - eps) * Math.cos(a - Psi)) / 2f; // parth of 7
+            R1a  = eps1 + (float) Math.sqrt(eps1 * eps1 + eps); // #7
+            Ai   = R1a * Arasp * AError; // #8
+            sumcos = (float) (sumcos + Ai * Math.cos(FiSum)); // Fi -> FiSum
+            sumsin = (float) (sumsin + Ai * Math.sin(FiSum)); // Fi -> FiSum
         }
         Ral = (float) Math.sqrt(sumcos * sumcos + sumsin * sumsin);
         return Ral;
@@ -98,12 +132,14 @@ public class Calc {
         this.eps = eps;
     }
 
-    public void setFirstRandom(float fRandom) {
-        firstRandom = fRandom;
+    public void setDeltaFiMax(float deltaFiMax) {
+        DeltaFiMax = deltaFiMax;
     }
-
-    public void setSecondRandom(float sRandom) {
-        secondRandom = sRandom;
+    public void setM(float sM) {
+        m = sM;
+    }
+    public void setDASigma(float DAS) {
+        DASigma = DAS;
     }
 
     // Getters
@@ -116,4 +152,6 @@ public class Calc {
     public float[] getDg() {
         return Dg;
     }
+
+
 }

@@ -19,6 +19,7 @@ public class CoolChartDraw {
 
     private static List<Float> xData = new ArrayList<Float>();
     private static List<Float> yData = new ArrayList<Float>();
+    private static List<Float> yNormData = new ArrayList<Float>();
     private JFrame graphFrame;
     private JTabbedPane tabbedPanel;
     private JPanel bottomPanel;
@@ -40,6 +41,17 @@ public class CoolChartDraw {
                 yData.add(Y[a]);
             } else {
                 yData.add(1f);
+            }
+        }
+    }
+
+    public static void setyNormData(float[] Y) {
+        yNormData = new ArrayList<Float>();
+        for (int a = 1; a < Y.length - 1; a++) {
+            if (Y[a] > 0) {
+                yNormData.add(Y[a]);
+            } else {
+                yNormData.add(1f);
             }
         }
     }
@@ -87,6 +99,7 @@ public class CoolChartDraw {
 
         for (int i = 0; i < xData.size(); i++) {
             series.add(xData.get(i), yData.get(i));
+            //series.add(xData.get(i), yNormData.get(i));
         }
 
         JFreeChart chart = ChartFactory.createXYLineChart(Name, "Градусы", "Значение", dataset, PlotOrientation.VERTICAL, false, true, false);

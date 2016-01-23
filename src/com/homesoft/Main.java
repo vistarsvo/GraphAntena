@@ -14,6 +14,9 @@ public class Main {
     public static CoolChartDraw coolChartFrame;
     public static ChartDraw chartFrame;
 
+    private static float Sigma;
+    private static float Delta;
+
     public static void main(String[] args) {
         calcObject = new Calc();
         showMainFrame();
@@ -45,9 +48,11 @@ public class Main {
                     resultsForm.resetArrays();
 
                     for (int i = 1; i <= iterator; i++) {
-                        calcObject.setFirstRandom(i); // Randoms
-                        calcObject.setSecondRandom(i); //Randoms
-                        calcObject.calculateAll(); // Calculate
+
+                        Sigma = MathHelper.getRandSigma();
+                        Delta = MathHelper.getRandDelta();
+
+                        calcObject.calculateAll(Sigma, Delta); // Calculate
 
                         inputForm.progressBar.setValue(i);
 
@@ -78,6 +83,68 @@ public class Main {
         String KD = inputForm.getVarKDTextField();
         String e = inputForm.getVarETextField();
         String i = inputForm.getVarIteratorTextField();
+        String DeltaFiMax = inputForm.getvarDFMaxTextField();
+        String M = inputForm.getvarMTextField();
+        String DASigma = inputForm.getVarDASigma();
+
+        if (DASigma.equals("")) { // Check is not empty value
+            JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Delta A Sigma не введено!");
+            return false;
+        } else {
+            float DAS;
+            try {
+                DAS = Float.parseFloat(DASigma); // Try to convert from string to float
+            }
+            catch(NumberFormatException errTrace)
+            {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Delta A Sigma введено с ошибкой!");
+                return false;
+            }
+            if (DAS > 0) {
+                calcObject.setDASigma(DAS);
+            } else {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Delta A Sigma не может быть равно <= 0!");
+            }
+        }
+        if (M.equals("")) { // Check is not empty value
+            JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение M не введено!");
+            return false;
+        } else {
+            float Mf;
+            try {
+                Mf = Float.parseFloat(M); // Try to convert from string to float
+            }
+            catch(NumberFormatException errTrace)
+            {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение M введено с ошибкой!");
+                return false;
+            }
+            if (Mf > 0) {
+                calcObject.setM(Mf);
+            } else {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Mf не может быть равно <= 0!");
+            }
+        }
+
+        if (DeltaFiMax.equals("")) { // Check is not empty value
+            JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение DeltaFiMax не введено!");
+            return false;
+        } else {
+            float dfMax;
+            try {
+                dfMax = Float.parseFloat(DeltaFiMax); // Try to convert from string to float
+            }
+            catch(NumberFormatException errTrace)
+            {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение DeltaFiMax введено с ошибкой!");
+                return false;
+            }
+            if (dfMax > 0) {
+                calcObject.setDeltaFiMax(dfMax);
+            } else {
+                JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение dfMax не может быть равно <= 0!");
+            }
+        }
 
         if (N.equals("")) { // Check is not empty value
             JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение N не введено!");

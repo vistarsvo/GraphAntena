@@ -12,6 +12,7 @@ import java.util.Map;
 public class ChartDraw {
     private static List<Float> xData = new ArrayList<Float>();
     private static List<Float> yData = new ArrayList<Float>();
+    private static List<Float> yNormData = new ArrayList<Float>();
     private JFrame graphFrame;
     private JTabbedPane tabbedPanel;
     private JPanel bottomPanel;
@@ -40,6 +41,17 @@ public class ChartDraw {
                 yData.add(Y[a]);
             } else {
                 yData.add(1f);
+            }
+        }
+    }
+
+    public static void setyNormData(float[] Y) {
+        yNormData = new ArrayList<Float>();
+        for (int a = 1; a < Y.length - 1; a++) {
+            if (Y[a] > 0) {
+                yNormData.add(Y[a]);
+            } else {
+                yNormData.add(1f);
             }
         }
     }
@@ -85,7 +97,6 @@ public class ChartDraw {
         Chart chart = new ChartBuilder().width(800).height(400).build();
 
         chart.getStyleManager().setChartTitleVisible(false);
-        //chart.getStyleManager().setLegendVisible(false);
         chart.getStyleManager().setLegendPosition(StyleManager.LegendPosition.InsideNW);
         chart.getStyleManager().setYAxisLogarithmic(true);
         chart.getStyleManager().setXAxisLabelRotation(90);
@@ -98,6 +109,7 @@ public class ChartDraw {
         chart.getStyleManager().setYAxisMin(MinY / 3);
         // Series
         chart.addSeries(Name, xData, yData);
+        // chart.addSeries(Name + " (норм)", xData, yNormData);
         return new XChartPanel(chart);
     }
 }

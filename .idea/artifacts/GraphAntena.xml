@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="GraphAntena">
+    <output-path>$PROJECT_DIR$/out/artifacts/GraphAntena</output-path>
+    <root id="root">
+      <element id="archive" name="GraphAntena.jar">
+        <element id="module-output" name="GraphAntena" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="org.knowm.xchart:xchart:2.6.1" type="repository">
-    <properties maven-id="org.knowm.xchart:xchart:2.6.1" />
+  <library name="org.knowm.xchart:xchart:2.6.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/xchart-2.6.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/VectorGraphics2D-0.9.3.jar!/" />
