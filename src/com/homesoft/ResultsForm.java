@@ -27,6 +27,11 @@ public class ResultsForm {
     private JButton BuildLogGraph;
     private JButton CoolChartButton;
     private JButton NormGraphButton;
+    private JButton showTable1;
+
+    private static JFrame table1Frame = new JFrame("Просмотр таблицы 1");
+    private static JFrame table2Frame = new JFrame("Просмотр таблицы 2");
+    private static TableOne table1 = new TableOne();
 
     private int maxSpinner = 100;
     private float[] Dg;
@@ -123,9 +128,25 @@ public class ResultsForm {
             }
         });
 
+        showTable1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                showTable1();
+                //table1Frame.
+            }
+        });
+
+
+
     }
 
-
+    private void showTable1() {
+        table1Frame.setContentPane(table1.MainPanel);
+        table1Frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        table1Frame.pack();
+        table1Frame.setLocationRelativeTo(null);
+    }
 
     public void setMaxSpinner(int maxSpinner) {
         this.maxSpinner = maxSpinner;

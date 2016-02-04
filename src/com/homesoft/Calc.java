@@ -22,26 +22,30 @@ public class Calc {
     private float[] Ra;//  = new float[190];
     private float[] Rna;// = new float[190];
 
-    private static Logger log = Logger.getLogger(Calc.class.getName());
+    private float[] SigmaNC;
+    private float[] DeltaNC;
 
-    private float Sigma;
-    private float Delta;
 
     private float DeltaFiMax;
 
 
-    public void calculateAll(float Sig, float Del) {
+    public void calculateAll() {
         int     i       = 0;
         int     dala    = (int) dal;
         float   a       = 0f;
         float   Max     = 0f;
 
-        Sigma = Sig;
-        Delta = Del;
-
         Dg              = new float[ (int)Nal + 2 ];
         Ra              = new float[ (int)Nal + 2 ];
         Rna             = new float[ (int)Nal + 2 ];
+        SigmaNC         = new float[ (int)Nc + 1 ];
+        DeltaNC         = new float[ (int)Nc + 1 ];
+
+        // Delta && Sigma
+        for (int iter = 1; iter <= Nc; iter++) {
+            SigmaNC[iter] = MathHelper.getRandSigma();
+            DeltaNC[iter] = MathHelper.getRandDelta();
+        }
 
         // Цикл по углу al
         for (int al = 0; al <= 180; al+=dala) { // тут шаг +dal
@@ -69,7 +73,7 @@ public class Calc {
 
 
     private float FiError(int i) { // #1
-        return (2f * Sigma /*     * (float) i    */ - 1) * DeltaFiMax;
+        return (2f * SigmaNC[i] /*     * (float) i    */ - 1) * DeltaFiMax;
     }
 
     private float FiSum(float FiErr, float Fi) { // #4
@@ -81,10 +85,8 @@ public class Calc {
         return (float) (Math.abs(Math.cos(Psi)) * Math.exp(-m * (part * part)));
     }
 
-    private float AError() { // #6
-        //System.out.println(Delta);
-       // System.out.println(DASigma);
-        return 1f + (2f * Delta - 1f) * DASigma;
+    private float AError(int i) { // #6
+        return 1f + (2f * SigmaNC[i] - 1f) * DASigma;
     }
 
     private float Ralfa(float a) {
@@ -107,7 +109,7 @@ public class Calc {
             Fi   = (float) (KD * (Math.cos(Psi - a) - Math.cos(Psi)) / 2f); // #3
             FiSum = FiSum(FiErr, Fi); // # 4
             Arasp = Arasp(Psi, PsiFirst);
-            AError = AError(); // # 6
+            AError = AError(i); // # 6
             eps1 = (float) ((1f - eps) * Math.cos(a - Psi)) / 2f; // parth of 7
             R1a  = eps1 + (float) Math.sqrt(eps1 * eps1 + eps); // #7
             Ai   = R1a * Arasp * AError; // #8
@@ -139,7 +141,7 @@ public class Calc {
         m = sM;
     }
     public void setDASigma(float DAS) {
-        DASigma = DAS;
+        DASigma = (float) (DAS * Math.PI / 180f);
     }
 
     // Getters

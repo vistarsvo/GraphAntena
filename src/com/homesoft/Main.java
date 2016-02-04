@@ -14,9 +14,6 @@ public class Main {
     public static CoolChartDraw coolChartFrame;
     public static ChartDraw chartFrame;
 
-    private static float Sigma;
-    private static float Delta;
-
     public static void main(String[] args) {
         calcObject = new Calc();
         showMainFrame();
@@ -49,10 +46,7 @@ public class Main {
 
                     for (int i = 1; i <= iterator; i++) {
 
-                        Sigma = MathHelper.getRandSigma();
-                        Delta = MathHelper.getRandDelta();
-
-                        calcObject.calculateAll(Sigma, Delta); // Calculate
+                        calcObject.calculateAll(); // Calculate
 
                         inputForm.progressBar.setValue(i);
 
