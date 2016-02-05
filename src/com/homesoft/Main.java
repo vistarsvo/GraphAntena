@@ -1,6 +1,14 @@
 package com.homesoft;
 
 
+
+// TODO screen 1 http://prntscr.com/9ygz0b
+// TODO screen 2 http://prntscr.com/9yhr7j
+// TODO screen 3 http://prntscr.com/9yhrfi
+// TODO screen 4 http://prntscr.com/9yhrld
+// TODO screen 5 http://prntscr.com/9yhxgv
+
+
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

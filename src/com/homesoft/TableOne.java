@@ -7,34 +7,42 @@ import java.awt.*;
  * Created by vistar on 04.02.16.
  */
 public class TableOne {
+    private JFrame tableFrame;
+    private JPanel bottomPanel;
 
-    public JPanel MainPanel;
-    private JPanel TopPanel;
-    private JPanel BottomPanel;
-    private JPanel ComponentsPanel;
-    private JLabel MainLable;
-
-    //Массив содержащий заголоки таблицы
-    private Object[] headers = { "Name", "Surname", "Telephone" };
-
-    //Массив содержащий информацию для таблицы
-    private Object[][] data = {
-            { "John", "Smith", "1112221" },
-            { "Ivan", "Black", "2221111" },
+    String[] columnNames = {"First Name",
+            "Last Name",
+            "Sport",
+            "# of Years",
+            "Vegetarian"};
+    Object[][] data = {
+            {"Kathy", "Smith",
+                    "Snowboarding", new Integer(5), new Boolean(false)},
+            {"John", "Doe",
+                    "Rowing", new Integer(3), new Boolean(true)},
+            {"Sue", "Black",
+                    "Knitting", new Integer(2), new Boolean(false)},
+            {"Jane", "White",
+                    "Speed reading", new Integer(20), new Boolean(true)},
+            {"Joe", "Brown",
+                    "Pool", new Integer(10), new Boolean(false)}
     };
-
-    //Объект таблицы
-    private JTable jTabPeople;
-
     public void buildTable() {
-        //Создаем новую таблицу на основе двумерного массива данных и заголовков
-        jTabPeople = new JTable(data, headers);
-        //Создаем панель прокрутки и включаем в ее состав нашу таблицу
-        JScrollPane jscrlp = new JScrollPane(jTabPeople);
-        //Устаналиваем размеры прокручиваемой области
-        jTabPeople.setPreferredScrollableViewportSize(new Dimension(250, 100));
-        //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
-        ComponentsPanel.add(jscrlp);
+        tableFrame = new JFrame("Тиблица 1");
+        tableFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        JTable table = new JTable(data, columnNames);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+
+        bottomPanel   = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        tableFrame.add(scrollPane, BorderLayout.CENTER);
+        tableFrame.add(bottomPanel, BorderLayout.SOUTH);
+        tableFrame.pack();
+        tableFrame.setLocationRelativeTo(null);
+        tableFrame.setVisible(true);
+
     }
 
 }

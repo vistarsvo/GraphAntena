@@ -132,21 +132,12 @@ public class ResultsForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                showTable1();
-                //table1Frame.
+
+                table1.buildTable();
             }
         });
-
-
-
     }
 
-    private void showTable1() {
-        table1Frame.setContentPane(table1.MainPanel);
-        table1Frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        table1Frame.pack();
-        table1Frame.setLocationRelativeTo(null);
-    }
 
     public void setMaxSpinner(int maxSpinner) {
         this.maxSpinner = maxSpinner;
