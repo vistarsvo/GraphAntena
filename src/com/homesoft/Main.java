@@ -244,6 +244,7 @@ public class Main {
             if (fi > 0 && fi <= 100) {
                 iterator = fi;
                 inputForm.progressBar.setMaximum(iterator);
+                TableOne.nIter = iterator;
             } else {
                 JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Итератора может быть от 1 до 100");
             }

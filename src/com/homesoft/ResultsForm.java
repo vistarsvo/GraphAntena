@@ -28,6 +28,7 @@ public class ResultsForm {
     private JButton CoolChartButton;
     private JButton NormGraphButton;
     private JButton showTable1;
+    private JButton showTable2;
 
     private static JFrame table1Frame = new JFrame("Просмотр таблицы 1");
     private static JFrame table2Frame = new JFrame("Просмотр таблицы 2");
@@ -132,7 +133,7 @@ public class ResultsForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                table1.initTableData();
                 table1.buildTable();
             }
         });

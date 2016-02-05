@@ -10,28 +10,29 @@ public class TableOne {
     private JFrame tableFrame;
     private JPanel bottomPanel;
 
-    String[] columnNames = {"First Name",
-            "Last Name",
-            "Sport",
-            "# of Years",
-            "Vegetarian"};
-    Object[][] data = {
-            {"Kathy", "Smith",
-                    "Snowboarding", new Integer(5), new Boolean(false)},
-            {"John", "Doe",
-                    "Rowing", new Integer(3), new Boolean(true)},
-            {"Sue", "Black",
-                    "Knitting", new Integer(2), new Boolean(false)},
-            {"Jane", "White",
-                    "Speed reading", new Integer(20), new Boolean(true)},
-            {"Joe", "Brown",
-                    "Pool", new Integer(10), new Boolean(false)}
-    };
+    private String[] columnNames;
+    private Object[][] rowsData;
+
+    public static int nIter;
+
+    public void initTableData() {
+        columnNames = new String[nIter + 1];
+        rowsData    = new String[2][nIter + 1];
+        columnNames[0] = "-/-";
+        rowsData[0][0] = "-/-";
+        rowsData[1][0] = "-/-";
+        for (int iter = 1; iter <= nIter; iter++) {
+            columnNames[iter] = "Nc=" + String.valueOf(iter);
+            rowsData[0][iter] = ".";
+            rowsData[1][iter] = ".";
+        };
+    }
+
     public void buildTable() {
         tableFrame = new JFrame("Тиблица 1");
         tableFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        JTable table = new JTable(data, columnNames);
+        JTable table = new JTable(rowsData, columnNames);
 
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
