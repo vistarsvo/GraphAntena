@@ -5,6 +5,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Arc2D;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class ResultsForm {
     private static JFrame table1Frame = new JFrame("Просмотр таблицы 1");
     private static JFrame table2Frame = new JFrame("Просмотр таблицы 2");
     private static TableOne table1 = new TableOne();
+    private static TableTwo table2 = new TableTwo();
 
     private int maxSpinner = 100;
     private float[] Dg;
@@ -42,6 +44,9 @@ public class ResultsForm {
     Map<Integer, float[]> hMapDG  = new HashMap<>();
     Map<Integer, float[]> hMapRA  = new HashMap<>();
     Map<Integer, float[]> hMapRNA = new HashMap<>();
+    Map<Integer, Float> hMapMaxOreol = new HashMap<>();
+    Map<Integer, Float> hMapFirstLep = new HashMap<>();
+    Map<Integer, Map<Float, Float>> hMaprLevel = new HashMap<>();
 
     // FORM Constructor. Called automatic
     public ResultsForm() {
@@ -133,8 +138,17 @@ public class ResultsForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                table1.initTableData();
+                table1.initTableData(hMapMaxOreol, hMapFirstLep);
                 table1.buildTable();
+            }
+        });
+
+        showTable2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                table2.initTableData();
+                table2.buildTable();
             }
         });
     }
@@ -148,6 +162,7 @@ public class ResultsForm {
         hMapDG.clear();
         hMapRA.clear();
         hMapRNA.clear();
+        hMapMaxOreol.clear();
         DGText.setText("[ Для Просмотра результатов в виде значений нужно выбрать итерацию и нажать \"Посмотреть\" ]");
         RAText.setText("[ Для Просмотра результатов в виде значений нужно выбрать итерацию и нажать \"Посмотреть\" ]");
         RNAText.setText("[ Для Просмотра результатов в виде значений нужно выбрать итерацию и нажать \"Посмотреть\" ]");

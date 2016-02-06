@@ -1,13 +1,10 @@
 package com.homesoft;
 
-
-
 // TODO screen 1 http://prntscr.com/9ygz0b
 // TODO screen 2 http://prntscr.com/9yhr7j
 // TODO screen 3 http://prntscr.com/9yhrfi
 // TODO screen 4 http://prntscr.com/9yhrld
 // TODO screen 5 http://prntscr.com/9yhxgv
-
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -25,7 +22,6 @@ public class Main {
     public static void main(String[] args) {
         calcObject = new Calc();
         showMainFrame();
-
 
         resultFrame.setContentPane(resultsForm.MainPanel);
         resultFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -48,30 +44,25 @@ public class Main {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 if (setVarsFromFormToCalc() == true) {
-
                     resultsForm.setMaxSpinner(iterator);
                     resultsForm.resetArrays();
-
                     for (int i = 1; i <= iterator; i++) {
-
                         calcObject.calculateAll(); // Calculate
-
                         inputForm.progressBar.setValue(i);
-
                         resultsForm.hMapDG.put(i,calcObject.getDg());
                         resultsForm.hMapRA.put(i,calcObject.getRa());
                         resultsForm.hMapRNA.put(i,calcObject.getRna());
+                        resultsForm.hMapMaxOreol.put(i,calcObject.getmaxOreol());
+                        resultsForm.hMapFirstLep.put(i,calcObject.getfirstLep());
+                        resultsForm.hMaprLevel.put(i, calcObject.getRLevel());
                     }
                     inputForm.progressBar.setValue(0);
-
                     // Reset All Cool Charts
                     coolChartFrame = new CoolChartDraw();
                     coolChartFrame.init();
-
                     // Reset All Logariphmic Charts
                     chartFrame = new ChartDraw();
                     chartFrame.init();
-
                     resultFrame.setVisible(true);
                 }
             }
@@ -245,13 +236,11 @@ public class Main {
                 iterator = fi;
                 inputForm.progressBar.setMaximum(iterator);
                 TableOne.nIter = iterator;
+                TableTwo.nIter = iterator;
             } else {
                 JOptionPane.showMessageDialog(inputForm.MainPanel, "Зачение Итератора может быть от 1 до 100");
             }
         }
-
         return true;
     }
-
-
 }

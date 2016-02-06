@@ -2,6 +2,8 @@ package com.homesoft;
 
 import sun.rmi.runtime.Log;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class Calc {
@@ -17,29 +19,42 @@ public class Calc {
     private float Fi    = 0f;
     private float Ral   = 0f;
     private float DASigma   = 0f;
-
-    private float[] Dg;//  = new float[190];
-    private float[] Ra;//  = new float[190];
-    private float[] Rna;// = new float[190];
-
+    private float[] Dg;
+    private float[] Ra;
+    private float[] Rna;
     private float[] SigmaNC;
     private float[] DeltaNC;
-
-
     private float DeltaFiMax;
+    private float firstLep = 0f;
+    private float maxOreol = 0f;
+    private Map<Float, Float> rLevel;
 
+    private void inithMap() {
+        rLevel = new HashMap<>();
+        rLevel.put(0.3f, 0f);
+        rLevel.put(0.25f, 0f);
+        rLevel.put(0.2f, 0f);
+        rLevel.put(0.18f, 0f);
+        rLevel.put(0.16f, 0f);
+        rLevel.put(0.14f, 0f);
+        rLevel.put(0.12f, 0f);
+        rLevel.put(0.1f, 0f);
+        rLevel.put(0.08f, 0f);
+        rLevel.put(0.06f, 0f);
+    }
 
     public void calculateAll() {
-        int     i       = 0;
-        int     dala    = (int) dal;
-        float   a       = 0f;
-        float   Max     = 0f;
+        int i = 0;
+        int dala = (int) dal;
+        float a = 0f;
+        float Max = 0f;
+        inithMap();
 
-        Dg              = new float[ (int)Nal + 2 ];
-        Ra              = new float[ (int)Nal + 2 ];
-        Rna             = new float[ (int)Nal + 2 ];
-        SigmaNC         = new float[ (int)Nc + 1 ];
-        DeltaNC         = new float[ (int)Nc + 1 ];
+        Dg = new float[(int) Nal + 2];
+        Ra = new float[(int) Nal + 2];
+        Rna = new float[(int) Nal + 2];
+        SigmaNC = new float[(int) Nc + 1];
+        DeltaNC = new float[(int) Nc + 1];
 
         // Delta && Sigma
         for (int iter = 1; iter <= Nc; iter++) {
@@ -48,16 +63,16 @@ public class Calc {
         }
 
         // Цикл по углу al
-        for (int al = 0; al <= 180; al+=dala) { // тут шаг +dal
+        for (int al = 0; al <= 180; al += dala) { // тут шаг +dal
             i++;
-            a = (float)al * Pi180;
+            a = (float) al * Pi180;
             Ralfa(a);
             Dg[i] = al;
             Ra[i] = Ral;
         }
 
         // Поиск максимума
-        for (int k = 1; k<= Nal; k++) {
+        for (int k = 1; k <= Nal; k++) {
             if (Ra[1] >= Ra[k + 1]) {
                 Max = Ra[1];
             } else {
@@ -66,11 +81,68 @@ public class Calc {
         }
 
         // Нормировка
-        for (int k = 1; k<= Nal; k++) {
+        for (int k = 1; k <= Nal; k++) {
             Rna[k] = Ra[k] / Max;
         }
-    }
 
+        // Первый  спад
+        float tempValue = Rna[10];
+        int firstAl = 1;
+        for (int al = 11; al <= 60; al += dala) { // тут шаг +dal
+            if (tempValue > Rna[al]) {
+                firstAl = al;
+                tempValue = Rna[al];
+            }
+            else {
+                break;
+            }
+        }
+
+        // 1й лепесток
+        tempValue = 0f;
+        for (int al = firstAl; al <= 60; al += dala) { // тут шаг +dal
+            if (tempValue < Rna[al]) {
+                tempValue = Rna[al];
+            }
+            else {
+                break;
+            }
+        }
+        firstLep = tempValue;
+
+        // Ореол макс значение
+        maxOreol = 0f;
+        for (int al = 60; al <= 180; al += dala) { // тут шаг +dal
+            if (maxOreol < Rna[al]) {
+                maxOreol = Rna[al];
+            }
+        }
+
+        // Ранжирование
+        for (int al = 0; al <= 180; al += dala) { // тут шаг +dal
+            if (Rna[al] >= 0.3f) {
+                rLevel.put(0.3f, rLevel.get(0.3f) + 1f);
+            } else if (Rna[al] >= 0.25f) {
+                rLevel.put(0.25f, rLevel.get(0.25f) + 1f);
+            } else if (Rna[al] >= 0.2f) {
+                rLevel.put(0.2f, rLevel.get(0.2f) + 1f);
+            } else if (Rna[al] >= 0.18f) {
+                rLevel.put(0.18f, rLevel.get(0.18f) + 1f);
+            } else if (Rna[al] >= 0.16f) {
+                rLevel.put(0.16f, rLevel.get(0.18f) + 1f);
+            } else if (Rna[al] >= 0.14f) {
+                rLevel.put(0.14f, rLevel.get(0.14f) + 1f);
+            } else if (Rna[al] >= 0.25f) {
+                rLevel.put(0.12f, rLevel.get(0.12f) + 1f);
+            } else if (Rna[al] >= 0.12f) {
+                rLevel.put(0.1f, rLevel.get(0.1f) + 1f);
+            } else if (Rna[al] >= 0.08f) {
+                rLevel.put(0.08f, rLevel.get(0.08f) + 1f);
+            } else {
+                rLevel.put(0.06f, rLevel.get(0.06f) + 1f);
+            }
+        }
+    }
 
     private float FiError(int i) { // #1
         return (2f * SigmaNC[i] /*     * (float) i    */ - 1) * DeltaFiMax;
@@ -154,6 +226,9 @@ public class Calc {
     public float[] getDg() {
         return Dg;
     }
+    public float getmaxOreol(){return maxOreol;}
+    public float getfirstLep(){return firstLep;}
+    public Map<Float, Float> getRLevel(){return rLevel;}
 
 
 }
