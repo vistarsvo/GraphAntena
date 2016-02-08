@@ -123,24 +123,44 @@ public class TableTwo {
         tableFrame.add(bottomPanel, BorderLayout.SOUTH);
         tableFrame.pack();
         tableFrame.setLocationRelativeTo(null);
-        tableFrame.setSize(wid, 320);
+        tableFrame.setSize(wid, 340);
         tableFrame.setVisible(true);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 
-        TableColumn column = table.getColumnModel().getColumn(0);
-        column.setPreferredWidth(80);
-        column.setCellRenderer( centerRenderer );
-        column = table.getColumnModel().getColumn(1);
-        column.setPreferredWidth(160);
-        column.setCellRenderer( centerRenderer );
+        TableColumn column;
+
 
         for (int iter = 1; iter <= nIter; iter++) {
             column = table.getColumnModel().getColumn(iter + 1);
             column.setPreferredWidth(50);
             column.setCellRenderer( centerRenderer );
         }
+
+        DefaultTableCellRenderer centerRenderer2 = new DefaultTableCellRenderer();
+        centerRenderer2.setHorizontalAlignment( JLabel.CENTER );
+
+        column = table.getColumnModel().getColumn(0);
+        column.setPreferredWidth(80);
+        column.setCellRenderer( centerRenderer2 );
+        centerRenderer2.setBackground(new Color(230,230,230));
+        centerRenderer2.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer2.setFont(centerRenderer2.getFont().deriveFont(Font.BOLD));
+
+        DefaultTableCellRenderer centerRenderer3 = new DefaultTableCellRenderer();
+        centerRenderer3.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer3.setBackground(new Color(240,240,240));
+        centerRenderer3.setForeground(new Color(40,40,40));
+        centerRenderer3.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer3.setFont(centerRenderer3.getFont().deriveFont(Font.BOLD));
+
+        column = table.getColumnModel().getColumn(1);
+        column.setPreferredWidth(160);
+        column.setCellRenderer( centerRenderer3 );
+
+
+
 
         printButton.addMouseListener(new MouseAdapter() {
             @Override
