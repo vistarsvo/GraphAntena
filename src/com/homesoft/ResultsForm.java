@@ -46,7 +46,7 @@ public class ResultsForm {
     Map<Integer, float[]> hMapRNA = new HashMap<>();
     Map<Integer, Float> hMapMaxOreol = new HashMap<>();
     Map<Integer, Float> hMapFirstLep = new HashMap<>();
-    Map<Integer, Map<Float, Float>> hMaprLevel = new HashMap<>();
+    Map<Integer, Map<Float, Integer>> hMaprLevel = new HashMap<>();
 
     // FORM Constructor. Called automatic
     public ResultsForm() {
@@ -147,7 +147,7 @@ public class ResultsForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                table2.initTableData();
+                table2.initTableData(hMaprLevel);
                 table2.buildTable();
             }
         });

@@ -27,20 +27,20 @@ public class Calc {
     private float DeltaFiMax;
     private float firstLep = 0f;
     private float maxOreol = 0f;
-    private Map<Float, Float> rLevel;
+    private Map<Float, Integer> rLevel;
 
     private void inithMap() {
         rLevel = new HashMap<>();
-        rLevel.put(0.3f, 0f);
-        rLevel.put(0.25f, 0f);
-        rLevel.put(0.2f, 0f);
-        rLevel.put(0.18f, 0f);
-        rLevel.put(0.16f, 0f);
-        rLevel.put(0.14f, 0f);
-        rLevel.put(0.12f, 0f);
-        rLevel.put(0.1f, 0f);
-        rLevel.put(0.08f, 0f);
-        rLevel.put(0.06f, 0f);
+        rLevel.put(0.3f, 0);
+        rLevel.put(0.25f, 0);
+        rLevel.put(0.2f, 0);
+        rLevel.put(0.18f, 0);
+        rLevel.put(0.16f, 0);
+        rLevel.put(0.14f, 0);
+        rLevel.put(0.12f, 0);
+        rLevel.put(0.1f, 0);
+        rLevel.put(0.08f, 0);
+        rLevel.put(0.06f, 0);
     }
 
     public void calculateAll() {
@@ -121,25 +121,34 @@ public class Calc {
         // Ранжирование
         for (int al = 0; al <= 180; al += dala) { // тут шаг +dal
             if (Rna[al] >= 0.3f) {
-                rLevel.put(0.3f, rLevel.get(0.3f) + 1f);
-            } else if (Rna[al] >= 0.25f) {
-                rLevel.put(0.25f, rLevel.get(0.25f) + 1f);
-            } else if (Rna[al] >= 0.2f) {
-                rLevel.put(0.2f, rLevel.get(0.2f) + 1f);
-            } else if (Rna[al] >= 0.18f) {
-                rLevel.put(0.18f, rLevel.get(0.18f) + 1f);
-            } else if (Rna[al] >= 0.16f) {
-                rLevel.put(0.16f, rLevel.get(0.18f) + 1f);
-            } else if (Rna[al] >= 0.14f) {
-                rLevel.put(0.14f, rLevel.get(0.14f) + 1f);
-            } else if (Rna[al] >= 0.25f) {
-                rLevel.put(0.12f, rLevel.get(0.12f) + 1f);
-            } else if (Rna[al] >= 0.12f) {
-                rLevel.put(0.1f, rLevel.get(0.1f) + 1f);
-            } else if (Rna[al] >= 0.08f) {
-                rLevel.put(0.08f, rLevel.get(0.08f) + 1f);
-            } else {
-                rLevel.put(0.06f, rLevel.get(0.06f) + 1f);
+                rLevel.put(0.3f, rLevel.get(0.3f) + 1);
+            }
+            if (Rna[al] >= 0.25f) {
+                rLevel.put(0.25f, rLevel.get(0.25f) + 1);
+            }
+            if (Rna[al] >= 0.2f) {
+                rLevel.put(0.2f, rLevel.get(0.2f) + 1);
+            }
+            if (Rna[al] >= 0.18f) {
+                rLevel.put(0.18f, rLevel.get(0.18f) + 1);
+            }
+            if (Rna[al] >= 0.16f) {
+                rLevel.put(0.16f, rLevel.get(0.18f) + 1);
+            }
+            if (Rna[al] >= 0.14f) {
+                rLevel.put(0.14f, rLevel.get(0.14f) + 1);
+            }
+            if (Rna[al] >= 0.25f) {
+                rLevel.put(0.12f, rLevel.get(0.12f) + 1);
+            }
+            if (Rna[al] >= 0.12f) {
+                rLevel.put(0.1f, rLevel.get(0.1f) + 1);
+            }
+            if (Rna[al] >= 0.08f) {
+                rLevel.put(0.08f, rLevel.get(0.08f) + 1);
+            }
+            if (Rna[al] >= 0.06f) {
+                rLevel.put(0.06f, rLevel.get(0.06f) + 1);
             }
         }
     }
@@ -228,7 +237,7 @@ public class Calc {
     }
     public float getmaxOreol(){return maxOreol;}
     public float getfirstLep(){return firstLep;}
-    public Map<Float, Float> getRLevel(){return rLevel;}
+    public Map<Float, Integer> getRLevel(){return rLevel;}
 
 
 }
